@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ContratoSeguro · Analiza contratos con IA en local</title>
+  <link rel="stylesheet" href="../css/estilo.css">
+</head>
+<body>
+  <header>
+    <a href="../index.html">← Volver</a>
+    <img src="../img/logo.png" alt="Zhynflow" style="height: 50px; margin-bottom: 1rem;">
+    <h1>🛡️ ContratoSeguro</h1>
+    <p class="tagline">Analiza cualquier contrato antes de firmar. 100% privado, 100% local.</p>
+  </header>
+
+  <main class="producto-detalle">
+    <section class="hero-producto">
+      <img src="../img/screenshot-contratoseguro.png" alt="ContratoSeguro en acción" loading="lazy">
+      <div class="cta-box">
+        <span class="precio-grande">49 €</span>
+        <span class="tipo-precio">Pago único. Sin suscripciones.</span>
+        <a href="https://zhynflow.lemonsqueezy.com/contratoseguro" class="btn-comprar">Comprar ahora</a>
+      </div>
+    </section>
+
+    <section class="descripcion-larga">
+      <h2>No firmes a ciegas</h2>
+      <p>Vas a firmar un contrato de trabajo, un alquiler, un acuerdo de confidencialidad. ¿Y si esconde una cláusula que vulnera tus derechos o te hace perder dinero?</p>
+      <p>ContratoSeguro analiza cualquier contrato en cuestión de segundos. Detecta las cláusulas abusivas, te explica el riesgo en un lenguaje que entiendes y te sugiere cómo modificarlas antes de firmar. Sin abogados. Sin subir tus datos a la nube.</p>
+
+      <h2>Lo que hace por ti</h2>
+      <p>Detecta cláusulas abusivas según la legislación española vigente: Ley de Arrendamientos Urbanos, Estatuto de los Trabajadores, Texto Refundido de la Ley General para la Defensa de los Consumidores y Usuarios, entre otras.</p>
+      <p>Clasifica cada hallazgo con un semáforo de riesgo:</p>
+      <ul>
+        <li><strong>Crítico:</strong> cláusula potencialmente abusiva, nula o de alto riesgo financiero.</li>
+        <li><strong>Precaución:</strong> redacción ambigua, demasiado general o interpretable en tu contra.</li>
+        <li><strong>Informativo:</strong> cláusula estándar que debes comprender bien antes de aceptar.</li>
+      </ul>
+      <p>Sugiere un texto alternativo para cada cláusula conflictiva. Podrás llevarlo a la negociación con seguridad.</p>
+      <p>Elige el tono del análisis:</p>
+      <ul>
+        <li><strong>Equilibrado:</strong> profesional, claro y directo.</li>
+        <li><strong>Beligerante:</strong> enérgico, combativo y sin concesiones.</li>
+        <li><strong>Didáctico:</strong> te explica cada punto como si fueses la primera vez que lees un contrato.</li>
+      </ul>
+      <p>Incluye una biblioteca de cláusulas abusivas frecuentes, clasificada por tipo de contrato, para que puedas revisarla por tu cuenta incluso antes del análisis automático.</p>
+      <p>Genera un informe descargable en PDF con el veredicto, el análisis detallado y las cláusulas propuestas. Listo para guardar, imprimir o compartir.</p>
+
+      <h2>100% privado · 100% local</h2>
+      <p>ContratoSeguro no es una página web que sube tus contratos a un servidor ajeno. Es un archivo HTML que se ejecuta completamente en tu navegador, dentro de tu ordenador.</p>
+      <p>La herramienta funciona con tu propia clave de API de OpenAI. No almacenamos nada. No vemos nada. Tus documentos nunca abandonan tu equipo.</p>
+
+      <h2>Tipos de contrato que analiza</h2>
+      <ul>
+        <li><strong>Laboral:</strong> cláusulas de no competencia, horas extra, período de prueba, plena dedicación, salario.</li>
+        <li><strong>Alquiler:</strong> fianza, gastos repercutidos, reparaciones, penalización por desistimiento, duración.</li>
+        <li><strong>Servicios / Autónomo:</strong> responsabilidad, plazos de pago, modificaciones unilaterales, propiedad intelectual.</li>
+        <li><strong>Confidencialidad:</strong> definición de información confidencial, duración, indemnizaciones, brechas de seguridad.</li>
+        <li><strong>Compraventa:</strong> arras, gastos notariales, vicios ocultos, plazos de entrega, sumisión a fuero.</li>
+      </ul>
+
+      <h2>Lo que recibes</h2>
+      <p>Un archivo comprimido que contiene:</p>
+      <ul>
+        <li>La herramienta completa en formato HTML (se abre con cualquier navegador moderno).</li>
+        <li>Un documento de instrucciones para empezar en menos de un minuto.</li>
+      </ul>
+      <p>Pago único, sin suscripciones. Sin cuotas mensuales. Lo compras una vez y lo usas siempre.</p>
+
+      <h2>Aviso importante</h2>
+      <p>Esta herramienta utiliza inteligencia artificial para ofrecer una orientación preliminar basada en patrones contractuales frecuentes. No presta asesoramiento legal ni sustituye la revisión por un abogado colegiado. Ante cualquier duda fundada, debes consultar con un profesional del derecho.</p>
+
+      <h2>Lo que dicen los usuarios</h2>
+      <blockquote>«Pensé que mi contrato de alquiler era estándar. Encontró una cláusula de penalización abusiva que me habría costado 3.200 euros. Me salvó.»<br>— Javier M., Madrid</blockquote>
+      <blockquote>«Lo usé para revisar mi contrato laboral antes de incorporarme. Señaló un pacto de no competencia sin compensación económica que era nulo. Lo negocié y lo retiraron.»<br>— Laura G., Barcelona</blockquote>
+
+      <h2>Empieza ahora</h2>
+      <p>Analiza tu contrato en minutos. Negocia con argumentos. Firma sin miedo.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>© <span id="year"></span> Zhynflow</p>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
