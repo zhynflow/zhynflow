@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zhynflow · Herramientas digitales con IA</title>
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+  <header>
+    <img src="img/logo.png" alt="Zhynflow" style="height: 50px;">
+    <p>Herramientas digitales con IA. Sin suscripciones. Sin nubes. Solo archivos que funcionan en tu ordenador.</p>
+  </header>
+
+  <main id="productos-container">
+    <!-- Las tarjetas de productos se generan aquí automáticamente -->
+  </main>
+
+  <footer>
+    <p>© <span id="year"></span> Zhynflow · Pago único, 100% local, sin suscripciones.</p>
+  </footer>
+
+  <script src="js/productos.js"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const container = document.getElementById('productos-container');
+
+    productos.forEach(p => {
+      if (p.estado === 'proximamente') return;
+
+      const card = document.createElement('article');
+      card.className = 'producto-card';
+      card.innerHTML = `
+        <img src="${p.imagen}" alt="${p.nombre}" loading="lazy">
+        <div class="producto-info">
+          <span class="categoria">${p.categoria}</span>
+          <h2>${p.nombre}</h2>
+          <p class="tagline">${p.tagline}</p>
+          <p class="descripcion">${p.descripcion}</p>
+          <div class="producto-footer">
+            <span class="precio">${p.precio} <small>${p.tipoPrecio}</small></span>
+            <a href="productos/${p.id}.html" class="btn">Ver más</a>
+          </div>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  </script>
+</body>
+</html>
