@@ -11,7 +11,7 @@ const productos = [
     enlaceCompra: "https://zhynflow.lemonsqueezy.com/contratoseguro",
     estado: "activo",
     etiquetas: ["contratos", "legal", "privacidad"]
-  }
+  },
   {
     id: "alegacionya",
     nombre: "AlegaciónYa",
@@ -25,5 +25,4 @@ const productos = [
     estado: "activo",
     etiquetas: ["multas", "administrativo", "legal", "alegaciones"]
   }
-
-]
+];
