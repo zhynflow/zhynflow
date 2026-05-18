@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>AlegaciónYa · Redacta alegaciones administrativas en minutos</title>
+  <!-- jsPDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <!-- marked -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #f4f6fb;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 1.5rem;
+    }
+    .card {
+      max-width: 900px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 2rem;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.06), 0 8px 15px rgba(0,20,40,0.04);
+      padding: 2.2rem 2.5rem;
+      transition: all 0.2s ease;
+    }
+    h1 {
+      font-size: 2rem;
+      font-weight: 650;
+      color: #0b1e33;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .privacy-badge {
+      background: #e6f7e6;
+      color: #0a5e2e;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.3rem 1rem;
+      border-radius: 2rem;
+      letter-spacing: 0.3px;
+    }
+    .subtitle {
+      color: #4a5b6e;
+      font-size: 1rem;
+      margin-bottom: 1.8rem;
+      border-left: 4px solid #1e5ef3;
+      padding-left: 1rem;
+      font-weight: 400;
+    }
+    .disclaimer-box {
+      background: #fff7e5;
+      border: 1px solid #ffd58c;
+      border-radius: 1rem;
+      padding: 1rem 1.4rem;
+      margin-bottom: 2rem;
+      font-size: 0.9rem;
+      color: #4b3a1a;
+      display: flex;
+      gap: 0.7rem;
+      align-items: flex-start;
+    }
+    .disclaimer-box strong { color: #b85e00; }
+    label {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #1f2a3a;
+      display: block;
+      margin: 1.2rem 0 0.4rem;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 0.9rem 1.2rem;
+      border-radius: 0.9rem;
+      border: 1px solid #dce3eb;
+      background: #fafbfd;
+      font-size: 0.95rem;
+      transition: 0.2s;
+      font-family: inherit;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #1e5ef3;
+      box-shadow: 0 0 0 3px rgba(30,94,243,0.1);
+      background: #ffffff;
+    }
+    textarea { min-height: 140px; resize: vertical; }
+    .actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin: 1.8rem 0 1rem;
+    }
+    .btn {
+      padding: 0.9rem 2rem;
+      border-radius: 3rem;
+      font-weight: 650;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      transition: 0.25s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: white;
+      color: #1e5ef3;
+      border: 1.5px solid #cdddfa;
+    }
+    .btn-primary {
+      background: #1e5ef3;
+      color: white;
+      border: 1.5px solid #1e5ef3;
+      box-shadow: 0 4px 12px rgba(30,94,243,0.2);
+    }
+    .btn-primary:hover { background: #0d4ddb; }
+    .btn:hover { background: #f0f4fe; }
+    .btn:disabled { opacity: 0.6; pointer-events: none; filter: grayscale(0.2); }
+    .result-container {
+      margin-top: 2rem;
+      border-radius: 1rem;
+      background: #f9fafc;
+      padding: 1.5rem 1.8rem;
+      border: 1px solid #eef1f6;
+      display: none;
+    }
+    .result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .result-content {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 0.8rem;
+      line-height: 1.6;
+      color: #1d2b3c;
+      font-size: 0.98rem;
+      border: 1px solid #edf2f9;
+      max-height: 550px;
+      overflow-y: auto;
+    }
+    .date-badge {
+      background: #fff7e5;
+      border: 1px solid #ffd58c;
+      border-radius: 1rem;
+      padding: 0.8rem 1.2rem;
+      margin: 1rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-weight: 500;
+    }
+    .date-badge.urgent { background: #fee2e2; border-color: #fca5a5; color: #991b1b; }
+    .date-badge.ok { background: #d1fae5; border-color: #6ee7b7; color: #065f46; }
+    .viability-badge {
+      font-size: 1rem;
+      border-radius: 1rem;
+      padding: 0.8rem 1.2rem;
+      margin: 1rem 0;
+      font-weight: 600;
+      text-align: center;
+    }
+    .viability-badge.high { background: #d1fae5; color: #065f46; }
+    .viability-badge.medium { background: #fef3c7; color: #92400e; }
+    .viability-badge.low { background: #fee2e2; color: #991b1b; }
+    .spinner-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(4px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+    .spinner-box {
+      background: white;
+      padding: 2rem 2.5rem;
+      border-radius: 1.5rem;
+      box-shadow: 0 20px 35px rgba(0,0,0,0.1);
+      text-align: center;
+      font-weight: 500;
+      color: #0b1e33;
+    }
+    .spinner {
+      border: 3px solid #dce3eb;
+      border-top: 3px solid #1e5ef3;
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      margin: 0 auto 1rem;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .api-hint { font-size: 0.8rem; color: #556b7c; margin-top: 0.2rem; }
+    .activation-screen { display: none; }
+    .app-screen { display: none; }
+    .activation-error { color: #d32f2f; font-weight: 500; margin-top: 0.5rem; }
+    @media (max-width: 550px) {
+      .card { padding: 1.5rem; }
+      h1 { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="card" id="mainCard">
+  <!-- Pantalla de Activación -->
+  <div id="activationScreen" class="activation-screen">
+    <h1>⚖️ Activar AlegaciónYa</h1>
+    <div class="subtitle">Introduce el email de compra y la clave de licencia que recibiste de Lemon Squeezy.</div>
+    <label>📧 Email de compra</label>
+    <input type="email" id="activationEmail" placeholder="tu@email.com" autocomplete="email">
+    <label>🔑 Clave de licencia</label>
+    <input type="text" id="activationKey" placeholder="XXXX-XXXX-XXXX-XXXX" autocomplete="off">
+    <div class="activation-error" id="activationError" style="display:none;"></div>
+    <div class="actions"><button class="btn-primary" id="activateBtn">🔓 Activar</button></div>
+    <div class="api-hint" style="margin-top:1rem;">¿Problemas? Escribe a soporte@zhynflow.com</div>
+  </div>
+
+  <!-- Aplicación principal -->
+  <div id="appScreen" class="app-screen">
+    <h1>⚖️ AlegaciónYa <span class="privacy-badge">🔒 100% LOCAL</span></h1>
+    <div class="subtitle">Redacta alegaciones administrativas con IA. Sin nubes, sin abogados, sin esperas.</div>
+
+    <div class="disclaimer-box">
+      <span style="font-size:1.5rem;">⚠️</span>
+      <div><strong>Importante:</strong> Esta herramienta ofrece una <strong>orientación preliminar generada por IA</strong>. No constituye asesoramiento legal ni sustituye a un abogado o gestor administrativo.</div>
+    </div>
+
+    <label>🔑 Tu Clave API de OpenAI</label>
+    <input type="password" id="apiKey" placeholder="sk-..." autocomplete="off">
+    <div class="api-hint">Se guarda solo en tu navegador. <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener">Obtener clave</a></div>
+
+    <!-- MEJORA 5: MODO ENTIENDE TU NOTIFICACIÓN -->
+    <h2 style="margin-top:2rem;">📨 Modo "Entiende tu notificación"</h2>
+    <label>📄 Pega aquí la notificación que has recibido</label>
+    <textarea id="notificacionText" placeholder="Pega el texto completo de la notificación administrativa..."></textarea>
+    <div class="actions"><button class="btn" id="explainNotificacionBtn">🔍 Traducir a lenguaje claro</button></div>
+    <div id="notificacionResult" class="result-container">
+      <div class="result-header"><strong>📋 Explicación en lenguaje llano</strong></div>
+      <div id="notificacionContent" class="result-content"></div>
+    </div>
+
+    <!-- MEJORA 1: CALCULADORA DE PLAZOS -->
+    <h2 style="margin-top:2rem;">📅 Calculadora de plazos</h2>
+    <label>📆 Fecha de notificación</label>
+    <input type="date" id="fechaNotificacion">
+    <label>⚖️ Tipo de procedimiento</label>
+    <select id="tipoProcedimiento">
+      <option value="multa_trafico">Multa de tráfico (20 días naturales)</option>
+      <option value="hacienda">Requerimiento de Hacienda (10 días hábiles)</option>
+      <option value="consumo">Sanción de consumo (15 días hábiles)</option>
+      <option value="subvencion">Denegación de subvención (1 mes)</option>
+      <option value="inspeccion">Acta de inspección (15 días hábiles)</option>
+      <option value="otro">Otro (especificar días)</option>
+    </select>
+    <div id="diasPersonalizados" style="display:none;">
+      <label>🔢 Número de días</label>
+      <input type="number" id="diasInput" value="15" min="1" max="365">
+      <label>📅 Tipo de días</label>
+      <select id="tipoDias"><option value="habiles">Hábiles</option><option value="naturales">Naturales</option></select>
+    </div>
+    <div class="actions"><button class="btn" id="calcularPlazoBtn">📅 Calcular plazo</button></div>
+    <div id="plazoResult" style="display:none;"></div>
+
+    <!-- MEJORA 2: ESCÁNER DE VIABILIDAD -->
+    <h2 style="margin-top:2rem;">🔎 Escáner de viabilidad</h2>
+    <p style="color:#64748b;font-size:0.9rem;">Responde estas preguntas para saber si merece la pena alegar.</p>
+    <div id="viabilityQuestions">
+      <label>✅ ¿Te notificaron correctamente? (ej. correo certificado, sede electrónica, boletín oficial)</label>
+      <select id="q1"><option value="">Selecciona...</option><option value="si">Sí</option><option value="no">No</option><option value="duda">No estoy seguro</option></select>
+      <label>✅ ¿Ha pasado más de un año desde los hechos que te sancionan?</label>
+      <select id="q2"><option value="">Selecciona...</option><option value="si">Sí</option><option value="no">No</option></select>
+      <label>✅ ¿Tienes pruebas que demuestren lo contrario? (fotos, facturas, testigos)</label>
+      <select id="q3"><option value="">Selecciona...</option><option value="si">Sí, tengo pruebas</option><option value="no">No tengo pruebas</option><option value="parcial">Tengo algunas pruebas parciales</option></select>
+      <label>✅ ¿La sanción se basa solo en una denuncia sin otras pruebas?</label>
+      <select id="q4"><option value="">Selecciona...</option><option value="si">Sí, solo hay una denuncia</option><option value="no">No, hay más pruebas (fotos, informes, etc.)</option><option value="duda">No lo sé</option></select>
+    </div>
+    <div class="actions"><button class="btn" id="scanViabilityBtn">🔎 Analizar viabilidad</button></div>
+    <div id="viabilityResult" style="display:none;"></div>
+
+    <!-- REDACCIÓN DE LA ALEGACIÓN -->
+    <h2 style="margin-top:2rem;">📝 Redactar alegación</h2>
+    <label>📄 Tipo de alegación</label>
+    <select id="alegacionType">
+      <option value="multa_trafico">Multa de tráfico</option>
+      <option value="hacienda">Requerimiento de Hacienda</option>
+      <option value="consumo">Sanción de consumo</option>
+      <option value="subvencion">Denegación de subvención</option>
+      <option value="inspeccion">Acta de inspección</option>
+      <option value="otro">Otro</option>
+    </select>
+    <label>🎭 Tono del escrito</label>
+    <select id="toneSelect">
+      <option value="respetuoso">🤝 Respetuoso (institucional)</option>
+      <option value="firme">💪 Firme (defensa contundente)</option>
+      <option value="tecnico">⚖️ Técnico (lenguaje jurídico denso)</option>
+    </select>
+    <label>📝 Describe los hechos</label>
+    <textarea id="hechosText" placeholder="Explica qué ha pasado, por qué consideras injusta la sanción, qué pruebas tienes..."></textarea>
+    <div class="actions">
+      <button class="btn-primary" id="generateBtn">📝 Redactar alegación</button>
+      <button class="btn" id="downloadBtn" disabled>📥 Descargar PDF</button>
+    </div>
+    <div id="alegacionResult" class="result-container">
+      <div class="result-header"><strong>📋 Escrito de alegación</strong></div>
+      <div id="alegacionContent" class="result-content"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Spinner -->
+<div class="spinner-overlay" id="spinner">
+  <div class="spinner-box"><div class="spinner"></div><span id="spinnerText">Procesando...</span></div>
+</div>
+
+<script>
+  (function() {
+    const STORAGE_KEY = 'alegacionya_license';
+    const LS_API = 'https://api.lemonsqueezy.com/v1/licenses/validate';
+
+    // Festivos nacionales España 2025 (aproximación, se pueden ampliar)
+    const FESTIVOS_2025 = new Set([
+      '2025-01-01','2025-01-06','2025-04-18','2025-05-01','2025-08-15','2025-10-12','2025-11-01','2025-12-06','2025-12-08','2025-12-25',
+      // Festivos comunes en CCAA (aproximación)
+      '2025-04-17','2025-04-21','2025-05-02','2025-07-25','2025-09-08','2025-10-13'
+    ]);
+
+    function isHabil(date) {
+      const d = date.getDay();
+      if (d === 0 || d === 6) return false;
+      const iso = date.toISOString().split('T')[0];
+      return !FESTIVOS_2025.has(iso);
+    }
+
+    function sumarDiasHabiles(fecha, dias) {
+      let d = new Date(fecha);
+      while (dias > 0) {
+        d.setDate(d.getDate() + 1);
+        if (isHabil(d)) dias--;
+      }
+      return d;
+    }
+
+    function sumarDiasNaturales(fecha, dias) {
+      let d = new Date(fecha);
+      d.setDate(d.getDate() + dias);
+      return d;
+    }
+
+    // UI references
+    const activationScreen = document.getElementById('activationScreen');
+    const appScreen = document.getElementById('appScreen');
+    const spinner = document.getElementById('spinner');
+    const spinnerText = document.getElementById('spinnerText');
+    const activationEmail = document.getElementById('activationEmail');
+    const activationKey = document.getElementById('activationKey');
+    const activateBtn = document.getElementById('activateBtn');
+    const activationError = document.getElementById('activationError');
+
+    function showActivation() { activationScreen.style.display='block'; appScreen.style.display='none'; }
+    function showApp() { activationScreen.style.display='none'; appScreen.style.display='block'; }
+    function showSpinner(t) { spinnerText.textContent=t||'Procesando...'; spinner.style.display='flex'; }
+    function hideSpinner() { spinner.style.display='none'; }
+    function saveLicense(email,key) { localStorage.setItem(STORAGE_KEY, JSON.stringify({email,key,activatedAt:Date.now()})); }
+    function loadLicense(){ const r=localStorage.getItem(STORAGE_KEY); if(!r) return null; try{return JSON.parse(r);}catch(e){return null;} }
+
+    async function validateLicense(email,key){
+      try{
+        const res=await fetch(LS_API,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({license_key:key,email:email})});
+        const data=await res.json();
+        if(data&&data.valid) return {valid:true,data};
+        return {valid:false,error:data?.error||'Licencia no válida.'};
+      }catch(err){return {valid:false,error:'Error de conexión al validar la licencia.'};}
+    }
+
+    activateBtn.addEventListener('click',async()=>{
+      const email=activationEmail.value.trim();
+      const key=activationKey.value.trim();
+      if(!email||!key){activationError.textContent='Introduce email y clave.';activationError.style.display='block';return;}
+      activationError.style.display='none';
+      activateBtn.disabled=true;
+      showSpinner('Validando licencia...');
+      const result=await validateLicense(email,key);
+      if(result.valid){saveLicense(email,key);hideSpinner();showApp();initApp();}
+      else{activationError.textContent=result.error||'Licencia no válida.';activationError.style.display='block';hideSpinner();activateBtn.disabled=false;}
+    });
+
+    window.addEventListener('DOMContentLoaded',()=>{
+      const license=loadLicense();
+      if(license){
+        showSpinner('Revalidando licencia...');
+        validateLicense(license.email,license.key).then(result=>{
+          if(result.valid){hideSpinner();showApp();initApp();}
+          else{hideSpinner();showActivation();activationError.textContent='Licencia expirada.';activationError.style.display='block';localStorage.removeItem(STORAGE_KEY);}
+        });
+      }else{hideSpinner();showActivation();}
+    });
+
+    function initApp(){
+      // NOTIFICACIÓN
+      document.getElementById('explainNotificacionBtn').addEventListener('click',async()=>{
+        const apiKey=document.getElementById('apiKey').value.trim();
+        const text=document.getElementById('notificacionText').value.trim();
+        if(!apiKey){alert('Clave API requerida');return;}
+        if(!text||text.length<50){alert('Pega la notificación completa.');return;}
+        showSpinner('Analizando notificación...');
+        try{
+          const res=await fetch('https://api.openai.com/v1/chat/completions',{
+            method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${apiKey}`},
+            body:JSON.stringify({model:'gpt-4o-mini',messages:[
+              {role:'system',content:'Eres un traductor de lenguaje administrativo a lenguaje llano. Explica la notificación en español claro, sin jerga. Indica: qué te reclaman, por qué, cuánto tiempo tienes para responder, qué opciones tienes.'},
+              {role:'user',content:text}
+            ],temperature:0.3,max_tokens:1000})
+          });
+          const data=await res.json();
+          const content=data.choices?.[0]?.message?.content||'Sin respuesta.';
+          document.getElementById('notificacionContent').innerHTML=marked.parse(content);
+          document.getElementById('notificacionResult').style.display='block';
+        }catch(e){alert('Error: '+e.message);}
+        finally{hideSpinner();}
+      });
+
+      // CALCULADORA DE PLAZOS
+      document.getElementById('tipoProcedimiento').addEventListener('change',function(){
+        document.getElementById('diasPersonalizados').style.display=this.value==='otro'?'block':'none';
+      });
+      document.getElementById('calcularPlazoBtn').addEventListener('click',()=>{
+        const fecha=document.getElementById('fechaNotificacion').value;
+        if(!fecha){alert('Selecciona la fecha de notificación.');return;}
+        const tipo=document.getElementById('tipoProcedimiento').value;
+        let dias, tipoDias;
+        if(tipo==='otro'){
+          dias=parseInt(document.getElementById('diasInput').value)||15;
+          tipoDias=document.getElementById('tipoDias').value;
+        }else{
+          const map={multa_trafico:[20,'naturales'],hacienda:[10,'habiles'],consumo:[15,'habiles'],subvencion:[30,'naturales'],inspeccion:[15,'habiles']};
+          [dias,tipoDias]=map[tipo]||[15,'habiles'];
+        }
+        const fechaNot=new Date(fecha+'T00:00:00');
+        const fechaLimite=tipoDias==='habiles'?sumarDiasHabiles(fechaNot,dias):sumarDiasNaturales(fechaNot,dias);
+        const hoy=new Date();hoy.setHours(0,0,0,0);
+        const diff=Math.ceil((fechaLimite-hoy)/(1000*60*60*24));
+        const div=document.getElementById('plazoResult');
+        div.style.display='block';
+        if(diff<0){
+          div.innerHTML=`<div class="date-badge urgent">⏰ El plazo ha vencido. Fecha límite: ${fechaLimite.toLocaleDateString('es-ES')}. Aún puedes presentar alegaciones, pero la administración podría rechazarlas por extemporáneas.</div>`;
+        }else if(diff<=3){
+          div.innerHTML=`<div class="date-badge urgent">⏰ ¡Quedan ${diff} días! Fecha límite: ${fechaLimite.toLocaleDateString('es-ES')}. Actúa ya.</div>`;
+        }else{
+          div.innerHTML=`<div class="date-badge ok">✅ Te quedan ${diff} días. Fecha límite: ${fechaLimite.toLocaleDateString('es-ES')}. Tienes margen para preparar una buena alegación.</div>`;
+        }
+      });
+
+      // ESCÁNER DE VIABILIDAD
+      document.getElementById('scanViabilityBtn').addEventListener('click',()=>{
+        const q1=document.getElementById('q1').value;
+        const q2=document.getElementById('q2').value;
+        const q3=document.getElementById('q3').value;
+        const q4=document.getElementById('q4').value;
+        let score=0;
+        if(q1==='no') score+=2;
+        if(q2==='si') score+=3;
+        if(q3==='si') score+=2;
+        else if(q3==='parcial') score+=1;
+        if(q4==='si') score+=2;
+        const div=document.getElementById('viabilityResult');
+        div.style.display='block';
+        if(score>=5){
+          div.innerHTML=`<div class="viability-badge high">✅ Probabilidad alta de éxito. Te recomendamos presentar alegación. Continúa abajo para redactarla.</div>`;
+        }else if(score>=3){
+          div.innerHTML=`<div class="viability-badge medium">⚠️ Viabilidad media. Puede merecer la pena alegar, pero necesitas aportar pruebas sólidas o argumentos jurídicos consistentes.</div>`;
+        }else{
+          div.innerHTML=`<div class="viability-badge low">❌ Viabilidad baja. Salvo que tengas pruebas muy contundentes que no hayas mencionado, plantéate el pago con descuento si aplica.</div>`;
+        }
+      });
+
+      // REDACCIÓN
+      document.getElementById('generateBtn').addEventListener('click',async()=>{
+        const apiKey=document.getElementById('apiKey').value.trim();
+        const tipo=document.getElementById('alegacionType').value;
+        const tono=document.getElementById('toneSelect').value;
+        const hechos=document.getElementById('hechosText').value.trim();
+        if(!apiKey){alert('Clave API requerida');return;}
+        if(!hechos||hechos.length<50){alert('Describe los hechos con más detalle.');return;}
+
+        const tonoMap={respetuoso:'Usa un tono respetuoso e institucional, adecuado para dirigirte a la administración.',firme:'Usa un tono firme y de defensa contundente, sin ser irrespetuoso. Argumenta con solidez.',tecnico:'Usa un lenguaje técnico-jurídico denso, con referencias normativas y procesales.'};
+        const tipoMap={multa_trafico:'multa de tráfico',hacienda:'requerimiento de Hacienda',consumo:'sanción de consumo',subvencion:'denegación de subvención',inspeccion:'acta de inspección',otro:'procedimiento administrativo'};
+
+        const prompt=`Actúa como un abogado administrativo experto. Redacta un escrito de alegaciones formal para una ${tipoMap[tipo]||'notificación administrativa'}.
+
+DATOS DEL CASO:
+${hechos}
+
+TONO: ${tonoMap[tono]}
+
+ESTRUCTURA OBLIGATORIA DEL ESCRITO:
+1. ENCABEZADO: Datos del interesado (nombre, DNI, domicilio) y del órgano al que se dirige.
+2. EXPOSICIÓN DE HECHOS: Relato cronológico y detallado de lo sucedido.
+3. FUNDAMENTOS JURÍDICOS: Normativa aplicable y argumentos legales que respaldan la alegación.
+4. SOLICITUD: Petición concreta (anulación, reducción, archivo, etc.).
+5. DOCUMENTOS ANEXOS RECOMENDADOS: Lista de documentos que conviene adjuntar (fotos, facturas, testigos, etc.) con instrucciones breves.
+6. FIRMA Y FECHA.
+
+Formato markdown, listo para copiar e imprimir.`;
+
+        showSpinner('Redactando alegación...');
+        try{
+          const res=await fetch('https://api.openai.com/v1/chat/completions',{
+            method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${apiKey}`},
+            body:JSON.stringify({model:'gpt-4o-mini',messages:[
+              {role:'system',content:'Eres un abogado administrativo experto. Redactas escritos de alegaciones formales.'},
+              {role:'user',content:prompt}
+            ],temperature:0.3,max_tokens:2000})
+          });
+          const data=await res.json();
+          const content=data.choices?.[0]?.message?.content||'Sin respuesta.';
+          document.getElementById('alegacionContent').innerHTML=marked.parse(content);
+          document.getElementById('alegacionResult').style.display='block';
+          document.getElementById('downloadBtn').disabled=false;
+          window._currentAlegacionMarkdown=content;
+        }catch(e){alert('Error: '+e.message);}
+        finally{hideSpinner();}
+      });
+
+      // PDF
+      document.getElementById('downloadBtn').addEventListener('click',()=>{
+        const md=window._currentAlegacionMarkdown;
+        if(!md) return;
+        const {jsPDF}=window.jspdf;
+        const doc=new jsPDF('p','mm','a4');
+        doc.setFont('helvetica','bold');doc.setFontSize(18);doc.text('Escrito de Alegación',20,25);
+        doc.setFont('helvetica','italic');doc.setFontSize(9);doc.setTextColor(80);doc.text('Generado por AlegaciónYa · Orientación preliminar IA',20,32,{maxWidth:170});
+        doc.setDrawColor(200);doc.line(20,37,190,37);
+        const plain=md.replace(/### /g,'').replace(/## /g,'').replace(/# /g,'').replace(/\*\*(.*?)\*\*/g,'$1').replace(/\*(.*?)\*/g,'$1').replace(/`/g,'').replace(/- /g,'• ').replace(/\n+/g,'\n');
+        doc.setFont('helvetica','normal');doc.setFontSize(11);doc.setTextColor(30);
+        const lines=doc.splitTextToSize(plain,170);
+        let y=45;
+        lines.forEach(line=>{if(y>280){doc.addPage();y=25;}doc.text(line,20,y);y+=5.5;});
+        const total=doc.internal.getNumberOfPages();
+        for(let i=1;i<=total;i++){doc.setPage(i);doc.setFontSize(8);doc.setTextColor(130);doc.text(`Página ${i} de ${total}`,105,290,null,'center');}
+        doc.save('alegacion.pdf');
+      });
+
+      // Cargar API key
+      const savedApi=localStorage.getItem('openai_api_key');
+      if(savedApi) document.getElementById('apiKey').value=savedApi;
+    }
+  })();
+</script>
+</body>
+</html>
