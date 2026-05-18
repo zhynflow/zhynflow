@@ -13,17 +13,17 @@ const productos = [
     etiquetas: ["contratos", "legal", "privacidad"]
   }
   {
-  id: "alegacionya",
-  nombre: "AlegaciónYa",
-  tagline: "Redacta alegaciones administrativas en minutos",
-  descripcion: "Genera escritos formales para multas, requerimientos y sanciones. Con calculadora de plazos y escáner de viabilidad.",
-  precio: "39 €",
-  tipoPrecio: "Pago único",
-  categoria: "Administrativo",
-  imagen: "img/screenshot-alegacionya.png",
-  enlaceCompra: "https://zhynflow.lemonsqueezy.com/alegacionya",
-  estado: "activo",
-  etiquetas: ["multas", "administrativo", "legal", "alegaciones"]
+    id: "alegacionya",
+    nombre: "AlegaciónYa",
+    tagline: "Redacta alegaciones administrativas en minutos",
+    descripcion: "Genera escritos formales para multas, requerimientos y sanciones. Con calculadora de plazos y escáner de viabilidad.",
+    precio: "39 €",
+    tipoPrecio: "Pago único",
+    categoria: "Administrativo",
+    imagen: "img/screenshot-alegacionya.png",
+    enlaceCompra: "https://zhynflow.lemonsqueezy.com/alegacionya",
+    estado: "activo",
+    etiquetas: ["multas", "administrativo", "legal", "alegaciones"]
   }
 
 ]
