@@ -24,7 +24,7 @@ const productos = [
   enlaceCompra: "https://zhynflow.lemonsqueezy.com/alegacionya",
   estado: "activo",
   etiquetas: ["multas", "administrativo", "legal", "alegaciones"]
-}
+  }
   // FUTURO PRODUCTO:
   // {
   //   id: "nuevoproducto",
