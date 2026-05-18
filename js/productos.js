@@ -25,18 +25,5 @@ const productos = [
   estado: "activo",
   etiquetas: ["multas", "administrativo", "legal", "alegaciones"]
   }
-  // FUTURO PRODUCTO:
-  // {
-  //   id: "nuevoproducto",
-  //   nombre: "NuevoProducto",
-  //   tagline: "Su frase corta",
-  //   descripcion: "Su descripción breve.",
-  //   precio: "XX €",
-  //   tipoPrecio: "Pago único",
-  //   categoria: "Categoría",
-  //   imagen: "img/screenshot-nuevoproducto.png",
-  //   enlaceCompra: "https://zhynflow.lemonsqueezy.com/nuevoproducto",
-  //   estado: "activo",
-  //   etiquetas: ["etiqueta1", "etiqueta2"]
-  // }
-];
+
+]
