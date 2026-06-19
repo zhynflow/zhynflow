@@ -7,7 +7,7 @@
         "image": "logo.png",
         "buyLink": "https://serenitystackia.lemonsqueezy.com/checkout/buy/c8a405f1-cddd-4281-b629-ad6c15badeb6?logo=0"
     }
-   {
+    {
     "id": "contratoseguro",
     "nombre": "ContratoSeguro",
     "icono": "🛡️",
@@ -44,9 +44,9 @@
         {"texto": "Pensé que mi contrato de alquiler era estándar. Encontró una cláusula de penalización abusiva que me habría costado 3.200 euros. Me salvó.", "autor": "Javier M., Madrid"},
         {"texto": "Lo usé para revisar mi contrato laboral antes de incorporarme. Señaló un pacto de no competencia sin compensación económica que era nulo. Lo negocié y lo retiraron.", "autor": "Laura G., Barcelona"}
       ]
-    }
-  },
-  {
+     }
+      },
+     {
     "id": "alegacionya",
     "nombre": "AlegaciónYa",
     "icono": "⚖️",
@@ -88,7 +88,7 @@
         {"texto": "Me llegó una multa de tráfico que no era mía. AlegaciónYa me redactó el escrito en minutos, con referencias legales y todo. La administración me dio la razón.", "autor": "Andrés P., autónomo"},
         {"texto": "Hacienda me reclamaba 600 € por un modelo que ya había presentado. Con la alegación que generó la herramienta, en dos semanas archivaron el expediente.", "autor": "Clara M., contable"}
       ]
-    }
-  } 
+     }
+    } 
 ]
 
