@@ -48,7 +48,7 @@
     "tipoPrecio": "Pago único",
     "categoria": "Administrativo",
     "imagen": "img/screenshot-alegacionya.png",
-    "enlaceCompra": "https://zhynflow.lemonsqueezy.com/alegacionya",
+    "enlaceCompra": "https://serenitystackia.lemonsqueezy.com/checkout/buy/08a67e20-2373-4122-a7c2-dacde8e4b236",
     "estado": "activo",
     "etiquetas": ["multas", "administrativo", "legal", "alegaciones"],
     "descripcionLarga": {
@@ -92,7 +92,7 @@
     "tipoPrecio": "Pago único",
     "categoria": "Empleo",
     "imagen": "img/screenshot-resumeforge.png",
-    "enlaceCompra": "https://zhynflow.lemonsqueezy.com/resumeforge",
+    "enlaceCompra": "https://serenitystackia.lemonsqueezy.com/checkout/buy/c8a405f1-cddd-4281-b629-ad6c15badeb6",
     "estado": "activo",
     "etiquetas": ["cv", "empleo", "privacidad", "ats", "ia local"],
     "descripcionLarga": {
