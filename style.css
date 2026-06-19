@@ -1,0 +1,107 @@
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f5f7fa;
+    color: #1a1a2e;
+}
+header {
+    text-align: center;
+    padding: 3rem 1rem;
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.logo {
+    max-width: 120px;
+    margin-bottom: 1rem;
+}
+.tagline {
+    font-size: 1.3rem;
+    color: #2e7d32;
+    font-weight: 600;
+}
+#products {
+    padding: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+#products h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+.product-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+.product-card img {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+}
+.product-info {
+    flex: 1;
+    min-width: 250px;
+}
+.product-info h3 {
+    margin-top: 0;
+}
+.price {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #0d6efd;
+    margin: 0.5rem 0;
+}
+.buy-btn {
+    display: inline-block;
+    background: #0d6efd;
+    color: white;
+    padding: 0.8rem 2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 1rem;
+}
+.buy-btn:hover {
+    background: #0b5ed7;
+}
+#how-it-works {
+    background: white;
+    padding: 3rem 1rem;
+}
+.features {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    max-width: 900px;
+    margin: 0 auto;
+}
+.feature {
+    text-align: center;
+    flex: 1;
+    min-width: 200px;
+}
+.feature .icon { font-size: 2rem; }
+#testimonials {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+footer {
+    text-align: center;
+    padding: 2rem;
+    color: #888;
+    font-size: 0.9rem;
+}
+footer a { color: #888; margin: 0 0.5rem; }
+@media (max-width: 600px) {
+    .product-card { flex-direction: column; }
+    .features { flex-direction: column; }
+}
